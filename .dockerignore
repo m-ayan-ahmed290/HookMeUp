@@ -1,0 +1,11 @@
+.git
+.github
+node_modules
+.env
+.env.*
+data
+*.sqlite*
+demo-output.json
+test
+docs
+generated_images

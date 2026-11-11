@@ -1,0 +1,6 @@
+[
+  {"id":"demo_text", "title":"[TEST] A free open source automation toolkit", "body":"Synthetic fixture — no Reddit data was fetched. Try keyword: automation, flair: Showcase, author: demo_user.", "author":"demo_user", "flair":"Showcase", "score":42,"type":"text","nsfw":false},
+  {"id":"demo_image", "title":"[TEST] My new robot design", "body":"Synthetic image post. Images are rendered only when supplied by an approved source.", "author":"artist_bot", "flair":"Art", "score":120,"type":"image","nsfw":false},
+  {"id":"demo_video", "title":"[TEST] Automation in action", "body":"Synthetic video example. Real video posts link to their media when Discord cannot embed playback.", "author":"demo_user", "flair":"Video", "score":8,"type":"video","nsfw":false},
+  {"id":"demo_excluded", "title":"[TEST] Sponsored automation promotion", "body":"Useful for testing exclusions such as sponsored.", "author":"promo_user", "flair":"Ads", "score":2,"type":"link","nsfw":false}
+]

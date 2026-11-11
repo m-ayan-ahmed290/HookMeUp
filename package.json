@@ -1,0 +1,16 @@
+{
+  "name": "hookmeup",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Policy-gated Reddit to Discord webhook relay with interactive management",
+  "engines": { "node": ">=24 <25" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/index.js",
+    "register": "node --env-file-if-exists=.env scripts/register.js",
+    "test": "node --test",
+    "check": "node scripts/check.js",
+    "demo": "node scripts/demo.js"
+  },
+  "dependencies": { "discord.js": "^14.22.1", "zod": "^4.1.5" }
+}

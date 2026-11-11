@@ -1,0 +1,32 @@
+name: Deploy to your own host
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Type DEPLOY to restart HookMeUp on your configured self-hosted runner'
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.ref == 'refs/heads/main' && inputs.confirmation == 'DEPLOY'
+    environment: production
+    runs-on: [self-hosted, linux, hookmeup]
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci && npm run check && npm test
+      - name: Build and restart (credentials stay on the host)
+        env:
+          HOOKMEUP_ENV_FILE: /opt/hookmeup/.env
+        run: |
+          test -r "$HOOKMEUP_ENV_FILE"
+          docker compose build
+          docker compose up -d --wait --wait-timeout 180

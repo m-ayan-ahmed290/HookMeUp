@@ -1,0 +1,14 @@
+import { randomBytes } from 'node:crypto';
+import { writeFileSync } from 'node:fs';
+import { Store } from '../src/store.js';
+import { Reddit } from '../src/reddit.js';
+import { Worker } from '../src/worker.js';
+import { postMessage } from '../src/forward.js';
+const store = new Store(':memory:', randomBytes(32).toString('hex'));
+const config = { mode: 'test' }, messages = [];
+store.add('100000000000000000', { subreddit: 'programming', channelId: '200000000000000000', filters: { include: ['automation'], exclude: ['sponsored'] } });
+const worker = new Worker(store, new Reddit(config), { send: async (source, post, mode) => { messages.push(JSON.parse(JSON.stringify(postMessage(post, mode)))); return { id: String(messages.length) }; }, notify: async () => {} }, config);
+await worker.tick();
+writeFileSync('demo-output.json', JSON.stringify(messages, null, 2));
+console.log(`${messages.length} matching synthetic posts delivered to a local mock webhook. No Discord or Reddit requests. Inspect demo-output.json.`);
+store.close();
