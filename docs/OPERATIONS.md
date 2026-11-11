@@ -1,5 +1,7 @@
 # Operations and deployment
 
+For the selected hosting provider, use [Wispbyte deployment](WISPBYTE.md). The Docker and self-hosted-runner instructions below are an optional alternative.
+
 ## Free hosting choice
 
 Use your existing computer or Linux hardware. There is no newly provisioned paid service. Running it locally is free software usage with ordinary electricity/network costs. It runs only while the machine is on, connected and awake. Free cloud plans may sleep, exclude background workers, require payment details or offer limited credits; no such service is provisioned or promised here.

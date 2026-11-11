@@ -18,6 +18,8 @@ HookMeUp is a self-hosted Node.js Discord bot with an interactive setup wizard, 
 | Live monitoring of communities you do not moderate | **Blocked unless Reddit explicitly approves this use and those communities** |
 | Hosting | Docker and self-hosted deployment workflow included; **no always-on host provisioned** |
 
+**Selected host: Wispbyte.** Use the [Wispbyte deployment guide](docs/WISPBYTE.md) and the secret-free ZIP in [Releases](https://github.com/m-ayan-ahmed290/HookMeUp/releases). A root `index.js` and preparation script support its Node.js panel. Account setup, private credentials, storage behavior and actual uptime remain unverified until deployed there.
+
 ## What it does
 
 - Multiple subreddit → channel connections per server, with independent filters and polling intervals.
@@ -113,6 +115,8 @@ Flair and author lists match exact values, ignoring case. Any allowed value with
 Example: include `automation, node`, choose AND, exclude `sponsored`, allow flair `Showcase`, types `text, video`, minimum score `10`.
 
 ## Hosting and deployment
+
+For your selected free host, start with [Deploy on Wispbyte](docs/WISPBYTE.md). It covers Node.js 24, uploads/private GitHub checkout, exact startup commands, credential setup, state-preserving updates and provider activity checks. The following Docker route is an alternative for your own hardware.
 
 No billing account is necessary to run this on your own computer or existing Linux hardware. The bot runs only while that machine and process are available. **GitHub Actions is not the bot’s always-on host.** Scheduled Actions runs would not keep Discord interactions online and are not used for polling.
 

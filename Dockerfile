@@ -2,7 +2,7 @@
 FROM node:24-bookworm-slim
 ENV NODE_ENV=production
 WORKDIR /app
-COPY package.json package-lock.json ./
+COPY --chown=node:node package.json package-lock.json ./
 # Optional build secret supports the managed development proxy without baking its CA into the image.
 RUN --mount=type=secret,id=proxy_ca \
     if [ -f /run/secrets/proxy_ca ]; then \

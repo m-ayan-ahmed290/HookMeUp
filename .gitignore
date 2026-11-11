@@ -7,3 +7,5 @@ coverage/
 *.sqlite*
 *.log
 demo-output.json
+.npm-cache/
+dist/

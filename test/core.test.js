@@ -1,7 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomBytes } from 'node:crypto';
-import { mkdtempSync, rmSync, readFileSync } from 'node:fs';
+import { mkdtempSync, rmSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { filtersSchema, sourceSchema, matches } from '../src/schema.js';
@@ -192,4 +193,17 @@ test('worker shutdown drains in-flight work before allowing the database to clos
     await new Promise(resolve => setImmediate(resolve)); assert.equal(drained, false);
     release(); await stopping; assert.equal(drained, true); assert.equal(db.pending().length, 1);
   } finally { release?.(); db.close(); }
+});
+test('hosting preparation creates private configuration, preserves keys and never prints secrets', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'hookmeup-host-'));
+  try {
+    writeFileSync(join(dir, '.env.example'), 'DISCORD_TOKEN=\nDISCORD_CLIENT_ID=\nENCRYPTION_KEY=\nREDDIT_MODE=test\n');
+    const script = new URL('../scripts/prepare-host.js', import.meta.url).pathname;
+    const env = { ...process.env }; delete env.ENCRYPTION_KEY;
+    const a = spawnSync(process.execPath, [script], { cwd: dir, env, encoding: 'utf8' }); assert.equal(a.status, 0, a.stderr);
+    const original = readFileSync(join(dir, '.env'), 'utf8'); const secret = original.match(/ENCRYPTION_KEY=([a-f0-9]{64})/)[1];
+    assert.ok(!a.stdout.includes(secret)); assert.equal(existsSync(join(dir, 'data')), true);
+    const b = spawnSync(process.execPath, [script], { cwd: dir, env, encoding: 'utf8' }); assert.equal(b.status, 0);
+    assert.equal(readFileSync(join(dir, '.env'), 'utf8'), original);
+  } finally { rmSync(dir, { recursive: true }); }
 });
